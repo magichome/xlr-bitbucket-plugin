@@ -11,6 +11,7 @@
 
 import sys
 import json
+import re
 
 def findNewCommit(oldCommitMap, newCommitMap):
     branch = ""
@@ -77,4 +78,20 @@ else:
 
         if not branchName or (branchName and branchName == branch ):
             triggerState = newTriggerState
+
+            if retrieveMessage:
+                # make http call to get commit
+                commit_path = "%s/%s/%s" % (context, "commit", commitId)
+                response = request.get(commit_path, contentType = 'application/json')
+
+                if not response.isSuccessful():
+                    print "Failed to fetch commit information from Bitbucket server %s" % server['url']
+                    response.errorDump()
+                    sys.exit(1)
+                else:
+                    info = json.loads(response.response)
+                    message = info["message"]
+                    if messageRegex:
+                        message = re.match(messageRegex, message)
+                
             print("Bitbucket triggered release for %s-%s" % (branch, commitId))

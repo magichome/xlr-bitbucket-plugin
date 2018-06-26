@@ -36,9 +36,13 @@
         <property name="excludeBranches" kind="string" category="Options" default="master"
                   description="Name of branche(s) to exclude when triggering releases. Comma separated"/>
 
+        <property name="retrieveMessage" kind="boolean" default="false" required="false" description="Select to retrieve commit message."/>
+        <property name="messageRegex" kind="string" default="((?&lt;!([A-Z]{1,10})-?)[A-Z]+-\d+)" required="false" description="Optionally process commit message with this regex."/>
+
         <!-- output variables -->
         <property name="commitId" category="variables" required="false" description="Id of the commit."/>
         <property name="branch" category="variables" required="false" description="Branch where the commit occurred."/>
+        <property name="message" category="variables" required="false" description="Commit message."/>
     </type>
 
     <type type="bitbucket.CommitTrigger" extends="xlrelease.ReleaseTrigger"
