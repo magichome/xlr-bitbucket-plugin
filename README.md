@@ -97,9 +97,7 @@ This plugin offers an interface from XL Release to Atlassian Stash(Now Bitbucket
 
 * Stash commit trigger configuration
 
-![](images/stash/stashcommittrigger1.png)
-
-![](images/stash/stashcommittrigger2.png)
+![](images/stash/stashcommittrigger3.png)
 
 # Bitbucket Tasks Usage #
    

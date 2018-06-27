@@ -13,7 +13,6 @@
            xmlns="http://www.xebialabs.com/deployit/synthetic"
            xsi:schemaLocation="http://www.xebialabs.com/deployit/synthetic synthetic.xsd">
 
-
     <!-- Commit Triggers -->
 
     <type type="stash.CommitTrigger" extends="xlrelease.ReleaseTrigger"
@@ -33,11 +32,11 @@
                   description="Optionally Specify branch name if only listening for commits on a single branch"/>
         <property name="triggerOnInitialPublish" category="Options" kind="boolean" default="false" required="false"
                   description="Should suppress error when project or repository not found . Set this to true when project or repository doesn't exist yet and you want to trigger a release on the initial publish. Default value is 'false'"/>
-        <property name="excludeBranches" kind="string" category="Options" default="master"
+        <property name="excludeBranches" kind="string" category="Options" default="master" required="false"
                   description="Name of branche(s) to exclude when triggering releases. Comma separated"/>
 
-        <property name="retrieveMessage" kind="boolean" default="false" required="false" description="Select to retrieve commit message."/>
-        <property name="messageRegex" kind="string" default="((?&lt;!([A-Z]{1,10})-?)[A-Z]+-\d+)" required="false" description="Optionally process commit message with this regex."/>
+        <property name="retrieveMessage" category="Options" kind="boolean" default="false" required="false" description="Select to retrieve commit message."/>
+        <property name="messageRegex" category="Options" kind="string" default="((?&lt;!([A-Z]{1,10})-?)[A-Z]+-\d+)" required="false" description="Optionally process commit message with this regex."/>
 
         <!-- output variables -->
         <property name="commitId" category="variables" required="false" description="Id of the commit."/>
@@ -68,11 +67,9 @@
 
 
     <!-- Bitbucket Tasks -->
-
-
     <type type="bitbucket.Task" extends="xlrelease.PythonScript" virtual="true">
-        <property name="server" category="input" label="Bitbucket Authentication" referenced-type="bitbucket.Server"
-                  kind="ci" required="true" description="Bitbucket Authentication."/>
+        <property name="server" category="input" label="Bitbucket Server" referenced-type="bitbucket.Server"
+                  kind="ci" required="true" description="Bitbucket cloud server defined in Shared Configuration."/>
         <property name="username" category="input" default="" required="false"
                   description="Custom username to override global server configuration"/>
         <property name="password" category="input" default="" required="false" password="true"
@@ -86,7 +83,6 @@
         <property name="output" category="output" kind="string" size="large" label="Output"
                   description="The output returned from execution of the Bitbucket task."/>
     </type>
-
 
     <type type="bitbucket.CreatePullRequest" extends="bitbucket.Task">
         <property name="source" category="input" description="Source branch" label="Source Branch"/>
@@ -128,8 +124,8 @@
     <!-- Stash Tasks -->
 
     <type type="stash.Task" extends="xlrelease.PythonScript" virtual="true">
-        <property name="server" category="input" label="Stash Authentication" referenced-type="stash.Server" kind="ci"
-                  required="true" description="Stash Authentication."/>
+        <property name="server" category="input" label="Stash Server" referenced-type="stash.Server" kind="ci"
+                  required="true" description="Stash server defined in Shared Configuration."/>
         <property name="username" category="input" default="" required="false"
                   description="Custom username to override global server configuration"/>
         <property name="password" category="input" default="" required="false" password="true"
@@ -184,6 +180,7 @@
         <property name="output" required="false" category="output"
                   description="Console output of the remote process (stdout)."/>
     </type>
+
     <type type="stash.SearchFileContent" extends="stash.Task">
         <property name="branch" default="master" category="input" description="Branch to download"/>
         <property name="filepath" category="input" description="Relative path to file"/>
@@ -192,6 +189,7 @@
         <property name="group0" required="false" category="output" description="Match Returned from search"/>
         <property name="group1" required="false" category="output" description="Match Returned from search"/>
     </type>
+
     <type type="stash.DeleteBranch" extends="stash.Task">
         <property name="branch" category="input" description="Branch to delete"/>
     </type>
@@ -201,12 +199,14 @@
         <property name="checkConfigurationContentType" hidden="true" default="application/json"/>
         <property name="scriptLocation" hidden="true" default="configuration/HttpConnectionCheck.py"/>
     </type>
+
     <type type="stash.CreateBranch" extends="stash.Task">
         <property name="branchName" category="input" description="New Branch Name" label="Branch Name"/>
         <property name="startPoint" category="input" description="Starting Point commit hash" label="Start Point Hash"/>
         <property name="message" category="input" description="Message" label="Message"/>
         <property name="output" required="false" category="output" description="Console output of the remote process (stdout)."/>
     </type>
+
     <type type="stash.ApprovePullRequest" extends="stash.Task">
         <property name="prid" category="input" description="Pull Request Id" label="Pull Request Id"/>
     </type>
